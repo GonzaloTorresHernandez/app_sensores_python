@@ -65,7 +65,7 @@ class MainView(QMainWindow):
     def __wire_actions(self):
 
         # Conecta acciones del topbar
-        # self.topbar.act_config.triggered.connect(self.open_settings)
+        self.topbar.act_config.triggered.connect(self.open_settings)
         self.topbar.act_conectar.triggered.connect(self.on_conectar)
         self.topbar.act_detener.triggered.connect(self.on_detener)
         self.topbar.act_exportar.triggered.connect(self.on_exportar)
@@ -100,5 +100,18 @@ class MainView(QMainWindow):
 
     def on_sidebar_item(self, text: str):
         self.statusBar().showMessage(f"Opción lateral: {text}")
+
+    def open_settings(self):
+        from app.ui.views.settings_view import SettingsView
+        from app.ui.presenters.settings_presenter import SettingsPresenter
+
+        dlg = SettingsView(parent=self)   # creas el diálogo
+        presenter = SettingsPresenter(dlg, self.settings)   # le pasas el servicio
+        dlg.bind_presenter(presenter)
+        presenter.load()
+
+        if dlg.exec():  # modal, devuelve QDialog.Accepted si se guardó
+            self.statusBar().showMessage("Configuración guardada correctamente ✅")
+
 
     ########################################################################

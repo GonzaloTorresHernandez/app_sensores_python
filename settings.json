@@ -1,0 +1,5 @@
+{
+  "serial_port": "COM1",
+  "baudrate": 115200,
+  "theme": "dark"
+}
